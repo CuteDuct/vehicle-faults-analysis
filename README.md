@@ -10,7 +10,7 @@
 
 本项目还构建了一个基于 **Streamlit** 的轻量级 Web 应用，让你无需编写代码，通过上传数据文件即可自动完成数据质量检测、生成统计报告与可视化图表。
 
-![交互式应用界面预览](streamlit.png)
+<img src="streamlit.png" alt="交互式应用界面预览" width="600">
 
 **主要功能**：
 - 📤 上传 `vehicle_fleet.csv` 与 `fault_events.csv`
