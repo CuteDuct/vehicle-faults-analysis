@@ -6,6 +6,16 @@
 
 **核心发现**：0~5,000km 区间存在显著的早期故障高峰（占总量约 30%），主要集中在动力系统与电气系统，符合可靠性工程"浴盆曲线"理论。
 
+## 🖥️ 交互式数据质检平台
+
+本项目还构建了一个基于 **Streamlit** 的轻量级 Web 应用，让你无需编写代码，通过上传数据文件即可自动完成数据质量检测、生成统计报告与可视化图表。
+
+![交互式应用界面预览](streamlit.png)
+
+**主要功能**：
+- 📤 上传 `vehicle_fleet.csv` 与 `fault_events.csv`
+- 📊 自动计算并展示数据质量评分与完整率
+- 📋 生成数据质量总览看板（车辆数、故障事件数、异常值统计）
 
 ## 🗂️ 数据来源
 
@@ -20,7 +30,6 @@
 
 > **引用格式**：Zheng, Yu-Jun (2026), "Chinese Vehicle Fleet Fault Association Dataset", Mendeley Data, V1, doi: 10.17632/r98g7g6k5t.1
 
-
 ## 📊 数据规模
 
 | 数据表 | 说明 | 规模 |
@@ -32,15 +41,14 @@
 
 **数据关联说明**：`vehicle_fleet` 与 `fault_events` 的 `vehicle_id` 编码体系不同（前者为 `V0001` 格式，后者为 `LC_DF_538` 格式），无法直接关联。经诊断验证，两张表通过 **`model_id`** 实现 100% 匹配（共 19 种车型），据此完成多表 JOIN 分析。
 
-
 ## 🛠️ 技术栈与环境
 
 - **Python**：3.10.16
 - **数据处理**：Pandas 2.2.3, NumPy 2.2.6
 - **数据库**：SQLite（内置），SQL 多表关联查询
 - **可视化**：Matplotlib 3.10.0, Seaborn
+- **Web 应用**：Streamlit（交互式数据质检平台）
 - **分析维度**：描述性统计、时序分析、交叉分析、异常检测、可靠性工程（浴盆曲线）
-
 
 ## 📂 项目结构
 
@@ -51,6 +59,7 @@ vehicle-fault-prediction/
 │   ├── fault_events.csv
 │   ├── ner_annotations.csv
 │   └── knowledge_graph_triples.csv
+├── app.py                              # Streamlit 交互式质检应用 ⭐新增
 ├── data_cleaning.py                    # 主程序：数据清洗 + 分析 + 可视化
 ├── text_one.py                         # 数据关联键诊断脚本
 ├── vehicle_analysis.db                 # SQLite 数据库（自动生成）
@@ -58,9 +67,9 @@ vehicle-fault-prediction/
 ├── analysis_*.csv                      # 6 份 SQL 分析结果
 ├── eda_overview.png                    # 基础可视化
 ├── mileage_analysis_early_fault.png    # 早期故障分析
-└── bathtub_curve.png                   # 浴盆曲线趋势图
+├── bathtub_curve.png                   # 浴盆曲线趋势图
+└── streamlit.png                       # Web 应用界面截图
 ```
-
 
 ## 🎯 核心分析内容
 
@@ -70,7 +79,6 @@ vehicle-fault-prediction/
 4. **早期故障挖掘**：0~5,000km 磨合期故障特征分析与浴盆曲线验证
 5. **传感器异常关联**：温度/压力异常状态与故障严重程度的交叉分析
 6. **知识图谱洞察**：故障因果关系网络分析、NER 实体分布统计
-
 
 ## 💡 核心业务结论
 
@@ -113,25 +121,37 @@ vehicle-fault-prediction/
 
 严重等级分布呈"中间高两头低"：等级 3 > 等级 2 > 等级 1 > 等级 4 > 等级 5。
 
-
 ## 🚀 快速开始
+
+### 🔧 方式一：运行交互式 Web 应用（推荐体验）
 
 ```bash
 # 1. 克隆仓库
-git clone https://github.com/CuteDuct/vehicle-fault-prediction.git
+git clone https://github.com/CuteDuct/vehicle-faults-analysis.git
 
 # 2. 安装依赖
+pip install pandas numpy matplotlib streamlit
+
+# 3. 启动 Streamlit 应用
+streamlit run app.py
+```
+
+随后浏览器会自动打开 `http://localhost:8501`，上传数据文件即可开始体验。
+
+### 📜 方式二：运行命令行分析脚本
+
+```bash
+# 1. 安装依赖
 pip install pandas==2.2.3 numpy==2.2.6 matplotlib==3.10.0 seaborn
 
-# 3. 运行数据关联诊断（验证 model_id 匹配）
+# 2. 运行数据关联诊断（验证 model_id 匹配）
 python text_one.py
 
-# 4. 运行完整分析
+# 3. 运行完整分析
 python data_cleaning.py
 ```
 
 > **`text_one.py` 说明**：由于 `vehicle_fleet` 与 `fault_events` 的 `vehicle_id` 编码体系不一致，该脚本用于诊断两张表的关联键。运行后可确认通过 `model_id` 可实现 19/19 的 100% 匹配，据此完成后续 SQL 多表关联。
-
 
 ## 📧 关于作者
 
@@ -139,7 +159,6 @@ python data_cleaning.py
 - **方向**：车辆工程 × 数据分析 × 智能运维
 - **联系**：2016291992@qq.com
 
-
 ## 📄 许可证
 
-本项目采用 [Apache-2.0 License](LICENSE) 进行开源。# 车辆故障数据分析与预防性维护报告
+本项目采用 [Apache-2.0 License](LICENSE) 进行开源。
