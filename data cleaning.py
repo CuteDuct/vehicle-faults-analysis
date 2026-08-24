@@ -241,7 +241,7 @@ print(df6)
 
 
 print("\n" + "=" * 50)
-print("📊 车辆故障数据质量报告")
+print("车辆故障数据质量报告")
 print("=" * 50)
 
 report = {
@@ -275,7 +275,7 @@ for k, v in report.items():
 with open('data_quality_report.txt', 'w', encoding='utf-8') as f:
     for k, v in report.items():
         f.write(f"{k}: {v}\n")
-print("\n✅ 报告已保存到 data_quality_report.txt")
+print("\n报告已保存到data_quality_report.txt")
 
 
 
@@ -313,7 +313,7 @@ axes[1,1].set_title('故障严重程度分布')
 plt.tight_layout()
 plt.savefig('eda_overview.png', dpi=150)
 plt.show()
-print("✅ 可视化已保存到 eda_overview.png")
+print("可视化已保存到eda_overview.png")
 
 #早期故障分析（双图）
 fig, axes = plt.subplots(1, 2, figsize=(14, 5))
@@ -336,7 +336,7 @@ axes[1].set_title('早期故障分布（0~2万公里放大）')
 plt.tight_layout()
 plt.savefig('mileage_analysis_early_fault.png', dpi=150)
 plt.show()
-print("✅ 早期故障分析图已保存到 mileage_analysis_early_fault.png")
+print("早期故障分析图已保存到mileage_analysis_early_fault.png")
 
 #浴盆曲线，按里程段统计故障密度
 faults['mileage_bin'] = pd.cut(faults['mileage_at_fault'], bins=20)
@@ -351,7 +351,7 @@ plt.title('故障率随里程变化趋势（浴盆曲线特征）')
 plt.grid(True, alpha=0.3)
 plt.savefig('bathtub_curve.png', dpi=150)
 plt.show()
-print("✅ 浴盆曲线已保存到 bathtub_curve.png")
+print("浴盆曲线已保存到 bathtub_curve.png")
 
 
 # 保存所有分析结果
@@ -362,7 +362,7 @@ df4.to_csv('analysis_sensor_severity.csv', index=False, encoding='utf-8-sig')
 df5.to_csv('analysis_knowledge_graph.csv', index=False, encoding='utf-8-sig')
 df6.to_csv('analysis_ner_entities.csv', index=False, encoding='utf-8-sig')
 
-print("✅ 所有分析结果已保存到 CSV 文件")
+print("所有分析结果已保存到 CSV 文件")
 
 
 # 1. 看 mileage_at_fault 为 0 的有多少
